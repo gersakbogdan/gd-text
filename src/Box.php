@@ -74,6 +74,11 @@ class Box
     protected $backgroundColor = false;
 
     /**
+     * @var float
+     */
+    protected $angle = 0.0;
+
+    /**
      * @var array
      */
     protected $box = array(
@@ -121,7 +126,7 @@ class Box
     {
         $this->strokeColor = $color;
     }
-    
+
     /**
      * @param int $v Stroke size in *pixels*
      */
@@ -167,6 +172,13 @@ class Box
     public function setBaseline($v)
     {
         $this->baseline = $v;
+    }
+
+    /**
+     * @param float $v The angle in degrees. 0 being left-to-righ reading text
+     */
+    public function setAngle($v) {
+        $this->angle = (float) $v;
     }
 
     /**
@@ -320,7 +332,7 @@ class Box
                     $this->textShadow['color'],
                     $line
                 );
-                
+
             }
 
             $this->strokeText($xMOD, $yMOD, $line);
@@ -373,8 +385,21 @@ class Box
 
     protected function drawFilledRectangle($x, $y, $width, $height, Color $color)
     {
-        imagefilledrectangle($this->im, $x, $y, $x + $width, $y + $height,
-            $color->getIndex($this->im)
+        $points = [
+            [$x, $y], [$x, $y+$height],
+            [$x+$width, $y+$height], [$x+$width, $y]
+        ];
+        $angle = deg2rad(-$this->angle);
+
+        foreach ($points as &$p) {
+            $p0 = $p[0];
+            $p1 = $p[1];
+            $p[0] = $x + ($p0-$x)*cos($angle) - ($p1-$y)*sin($angle);
+            $p[1] = $y + ($p0-$x)*sin($angle) + ($p1-$y)*cos($angle);
+        }
+
+        imagefilledpolygon($this->im, call_user_func_array('array_merge', $points),
+            4, $color->getIndex($this->im)
         );
     }
 
@@ -399,7 +424,7 @@ class Box
         imagefttext(
             $this->im,
             $this->getFontSizeInPoints(),
-            0, // no rotation
+            $this->angle,
             $x,
             $y,
             $color->getIndex($this->im),

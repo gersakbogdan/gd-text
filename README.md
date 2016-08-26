@@ -1,7 +1,7 @@
 gd-text
 =======
 
-###Basic usage example
+###Basic usage example (with rotation)
 ```php
 <?php
 require __DIR__.'/../vendor/autoload.php';
@@ -20,6 +20,7 @@ $box->setTextShadow(new Color(0, 0, 0, 50), 2, 2);
 $box->setFontSize(40);
 $box->setBox(20, 20, 460, 460);
 $box->setTextAlign('left', 'top');
+$box->setAngle(-10);
 $box->draw("Franchise\nBold");
 
 $box = new Box($im);
@@ -29,6 +30,7 @@ $box->setFontColor(new Color(255, 255, 255));
 $box->setTextShadow(new Color(0, 0, 0, 50), 0, -2);
 $box->setBox(20, 20, 460, 460);
 $box->setTextAlign('center', 'center');
+$box->setAngle(10);
 $box->draw("Pacifico");
 
 $box = new Box($im);
@@ -46,7 +48,7 @@ imagepng($im);
 
 Example output:
 
-![fonts example](examples/fonts.png)
+![fonts example](examples/angle.png)
 
 Multilined text
 ---------------

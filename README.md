@@ -64,17 +64,21 @@ Multilined text
 <?php
 require __DIR__.'/../vendor/autoload.php';
 
+use GDText\ImageCreator as Image;
 use GDText\Box;
+use GDText\Font;
 use GDText\Color;
 
 $image = Image::canvas(500, 500, new Color(0, 18, 64));
+$im = $image->getResource();
 
-$box = new Box($image->getResource());
-$box->setFontFace(__DIR__.'/Minecraftia.ttf'); // http://www.dafont.com/minecraftia.font
-$box->setFontColor(new Color(255, 75, 140));
-$box->setTextShadow(new Color(0, 0, 0, 50), 2, 2);
-$box->setFontSize(8);
-$box->setLineHeight(1.5);
+$font = new Font(__DIR__.'/Minecraftia.ttf'); // http://www.dafont.com/minecraftia.font
+$font->setColor(new Color(255, 75, 140))
+     ->setShadow(new Color(0, 0, 0, 50), 2, 2)
+     ->setLineHeight(2)
+     ->setSize(10);
+
+$box = new Box($im, $font);
 //$box->enableDebug();
 $box->setBox(20, 20, 460, 460);
 $box->setTextAlign('left', 'top');
@@ -93,20 +97,23 @@ Text stroke
 <?php
 require __DIR__.'/../vendor/autoload.php';
 
+use GDText\ImageCreator as Image;
 use GDText\Box;
+use GDText\Font;
 use GDText\Color;
 
 $image = Image::canvas(500, 500, new Color(0, 18, 64));
+$im = $image->getResource();
 
-$box = new Box($image->getResource());
-$box->setFontFace(__DIR__.'/Elevant bold.ttf'); // http://www.dafont.com/elevant-by-pelash.font
-$box->setFontSize(150);
-$box->setFontColor(new Color(255, 255, 255));
+$font = new Font(__DIR__.'/Elevant bold.ttf'); // http://www.dafont.com/elevant-by-pelash.font
+$font->setColor(new Color(255, 255, 255))
+     ->setSize(50)
+     ->setStrokeColor(new Color(255, 75, 140)) // Set stroke color
+     ->setStrokeSize(3); // Stroke size in pixels
+
+$box = new Box($im, $font);
 $box->setBox(15, 20, 460, 460);
 $box->setTextAlign('center', 'center');
-
-$box->setStrokeColor(new Color(255, 75, 140)); // Set stroke color
-$box->setStrokeSize(3); // Stroke size in pixels
 
 $box->draw("Elevant");
 
@@ -121,15 +128,19 @@ Text background
 <?php
 require __DIR__.'/../vendor/autoload.php';
 
+use GDText\ImageCreator as Image;
 use GDText\Box;
+use GDText\Font;
 use GDText\Color;
 
 $image = Image::canvas(500, 500, new Color(0, 18, 64));
+$im = $image->getResource();
 
-$box = new Box($image->getResource());
-$box->setFontFace(__DIR__.'/fonts/BebasNeue.otf'); // http://www.dafont.com/elevant-by-pelash.font
-$box->setFontSize(100);
-$box->setFontColor(new Color(255, 255, 255));
+$font = new Font(__DIR__.'/BebasNeue.otf'); // http://www.dafont.com/elevant-by-pelash.font
+$font->setColor(new Color(255, 255, 255))
+     ->setSize(100);
+
+$box = new Box($im, $font);
 $box->setBox(15, 20, 460, 460);
 $box->setTextAlign('center', 'center');
 

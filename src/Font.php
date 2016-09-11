@@ -1,5 +1,6 @@
 <?php namespace GDText;
 
+use GDText\Image;
 use GDText\Color;
 
 class Font {
@@ -163,10 +164,36 @@ class Font {
     public function getLineHeight() {
         return $this->lineHeight;
     }
+
     /**
      * @return float
      */
     public function getSizeInPoints() {
         return 0.75 * $this->size;
+    }
+
+    /**
+     * Draw text to given image
+     *
+     * @param Image $image
+     * @param string $text Text to draw on image
+     * @param integer $x X coordinate to draw at
+     * @param integer $y Y coordinate to draw at
+     */
+    public function draw(Image $image, $text, $x, $y) {
+        $imageResource = $image->getResource();
+
+        imagealphablending($imageResource, true);
+
+        imagefttext(
+            $imageResource,
+            $this->getSizeInPoints(),
+            $this->angle,
+            $x,
+            $y,
+            $this->color->getIndex($imageResource),
+            $this->file,
+            $text
+        );
     }
 }

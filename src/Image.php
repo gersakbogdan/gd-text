@@ -13,4 +13,8 @@ class Image {
     public function getResource() {
         return $this->resource;
     }
+
+    public function text($text, $x = 0, $y = 0, Font $font) {
+        $font->draw($this, $text, $x, $y);
+    }
 }

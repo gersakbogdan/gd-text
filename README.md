@@ -8,35 +8,43 @@ require __DIR__.'/../vendor/autoload.php';
 
 use GDText\ImageCreator as Image;
 use GDText\Box;
+use GDText\Font;
 use GDText\Color;
 
 $image = Image::canvas(500, 500, new Color(0, 18, 64));
+$im = $image->getResource();
 
-$box = new Box($image->getResource());
-$box->setFontFace(__DIR__.'/Franchise-Bold-hinted.ttf'); // http://www.dafont.com/franchise.font
-$box->setFontColor(new Color(255, 75, 140));
-$box->setTextShadow(new Color(0, 0, 0, 50), 2, 2);
-$box->setFontSize(40);
+$font = new Font(__DIR__.'/Franchise-Bold-hinted.ttf'); // http://www.dafont.com/franchise.font
+$font->setColor(new Color(255, 75, 140))
+     ->setShadow(new Color(0, 0, 0, 50), 2, 2)
+     ->setSize(40)
+     ->setAngle(-10);
+
+$box = new Box($im, $font);
 $box->setBox(20, 20, 460, 460);
 $box->setTextAlign('left', 'top');
-$box->setAngle(-10);
 $box->draw("Franchise\nBold");
 
-$box = new Box($image->getResource());
-$box->setFontFace(__DIR__.'/Pacifico.ttf'); // http://www.dafont.com/pacifico.font
-$box->setFontSize(80);
-$box->setFontColor(new Color(255, 255, 255));
-$box->setTextShadow(new Color(0, 0, 0, 50), 0, -2);
+
+$font->setFile(__DIR__.'/Pacifico.ttf') // http://www.dafont.com/pacifico.font
+     ->setColor(new Color(255, 255, 255))
+     ->setShadow(new Color(0, 0, 0, 50), 0, -2)
+     ->setSize(80)
+     ->setAngle(10);
+
+$box = new Box($im, $font);
 $box->setBox(20, 20, 460, 460);
 $box->setTextAlign('center', 'center');
-$box->setAngle(10);
 $box->draw("Pacifico");
 
-$box = new Box($image->getResource());
-$box->setFontFace(__DIR__.'/Prisma.otf'); // http://www.dafont.com/prisma.font
-$box->setFontSize(70);
-$box->setFontColor(new Color(148, 212, 1));
-$box->setTextShadow(new Color(0, 0, 0, 50), 0, -2);
+
+$font->setFile(__DIR__.'/Prisma.otf') // http://www.dafont.com/prisma.font
+     ->setColor(new Color(148, 212, 1))
+     ->setShadow(new Color(0, 0, 0, 50), 0, -2)
+     ->setSize(70)
+     ->setAngle(0);
+
+$box = new Box($im, $font);
 $box->setBox(20, 20, 460, 460);
 $box->setTextAlign('right', 'bottom');
 $box->draw("Prisma");

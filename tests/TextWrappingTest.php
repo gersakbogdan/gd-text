@@ -2,6 +2,7 @@
 namespace GDText\Tests;
 
 use GDText\Box;
+use GDText\Font;
 use GDText\Color;
 use GDText\TextWrapping;
 
@@ -12,10 +13,11 @@ class TextWrappingTest extends TestCase
         imagealphablending($im, true);
         imagesavealpha($im, true);
 
-        $box = new Box($im);
-        $box->setFontFace(__DIR__.'/LinLibertine_R.ttf'); // http://www.dafont.com/franchise.font
-        $box->setFontColor(new Color(255, 75, 140));
-        $box->setFontSize(16);
+        $font = new Font(__DIR__.'/LinLibertine_R.ttf'); // http://www.dafont.com/franchise.font
+        $font->setColor(new Color(255, 75, 140))
+             ->setSize(16);
+
+        $box = new Box($im, $font);
         $box->setBox(0, 135, imagesx($im), 70);
         $box->setTextAlign('left', 'top');
         return $box;

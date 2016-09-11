@@ -9,24 +9,9 @@ class Box
     protected $im;
 
     /**
-     * @var int
+     * @var Font
      */
-    protected $strokeSize = 0;
-
-    /**
-     * @var Color
-     */
-    protected $strokeColor;
-
-    /**
-     * @var int
-     */
-    protected $fontSize = 12;
-
-    /**
-     * @var Color
-     */
-    protected $fontColor;
+    protected $font;
 
     /**
      * @var string
@@ -54,29 +39,14 @@ class Box
     protected $baseline = 0.2;
 
     /**
-     * @var string
-     */
-    protected $fontFace = null;
-
-    /**
      * @var bool
      */
     protected $debug = false;
 
     /**
-     * @var bool|array
-     */
-    protected $textShadow = false;
-
-    /**
      * @var bool|Color
      */
     protected $backgroundColor = false;
-
-    /**
-     * @var float
-     */
-    protected $angle = 0.0;
 
     /**
      * @var array
@@ -88,65 +58,10 @@ class Box
         'height' => 100
     );
 
-    public function __construct(&$image)
+    public function __construct(&$image, $font)
     {
         $this->im = $image;
-        $this->fontColor = new Color(0, 0, 0);
-        $this->strokeColor = new Color(0, 0, 0);
-    }
-
-    /**
-     * @param Color $color Font color
-     */
-    public function setFontColor(Color $color)
-    {
-        $this->fontColor = $color;
-    }
-
-    /**
-     * @param string $path Path to the font file
-     */
-    public function setFontFace($path)
-    {
-        $this->fontFace = $path;
-    }
-
-    /**
-     * @param int $v Font size in *pixels*
-     */
-    public function setFontSize($v)
-    {
-        $this->fontSize = $v;
-    }
-
-    /**
-     * @param Color $color Stroke color
-     */
-    public function setStrokeColor(Color $color)
-    {
-        $this->strokeColor = $color;
-    }
-
-    /**
-     * @param int $v Stroke size in *pixels*
-     */
-    public function setStrokeSize($v)
-    {
-        $this->strokeSize = $v;
-    }
-
-    /**
-     * @param Color $color Shadow color
-     * @param int $xShift Relative shadow position in pixels. Positive values move shadow to right, negative to left.
-     * @param int $yShift Relative shadow position in pixels. Positive values move shadow to bottom, negative to up.
-     */
-    public function setTextShadow(Color $color, $xShift, $yShift)
-    {
-        $this->textShadow = array(
-            'color' => $color,
-            'x' => $xShift,
-            'y' => $yShift
-        );
+        $this->font = $font;
     }
 
     /**
@@ -172,35 +87,6 @@ class Box
     public function setBaseline($v)
     {
         $this->baseline = $v;
-    }
-
-    /**
-     * @param float $v The angle in degrees. 0 being left-to-righ reading text
-     */
-    public function setAngle($v) {
-        $this->angle = (float) $v;
-    }
-
-    /**
-     * Sets text alignment inside textbox
-     * @param string $x Horizontal alignment. Allowed values are: left, center, right.
-     * @param string $y Vertical alignment. Allowed values are: top, center, bottom.
-     */
-    public function setTextAlign($x = 'left', $y = 'top')
-    {
-        $xAllowed = array('left', 'right', 'center');
-        $yAllowed = array('top', 'bottom', 'center');
-
-        if (!in_array($x, $xAllowed)) {
-            throw new \InvalidArgumentException('Invalid horizontal alignement value was specified.');
-        }
-
-        if (!in_array($y, $yAllowed)) {
-            throw new \InvalidArgumentException('Invalid vertical alignement value was specified.');
-        }
-
-        $this->alignX = $x;
-        $this->alignY = $y;
     }
 
     /**
@@ -235,15 +121,33 @@ class Box
     }
 
     /**
+     * Sets text alignment inside textbox
+     * @param string $x Horizontal alignment. Allowed values are: left, center, right.
+     * @param string $y Vertical alignment. Allowed values are: top, center, bottom.
+     */
+    public function setTextAlign($x = 'left', $y = 'top')
+    {
+        $xAllowed = array('left', 'right', 'center');
+        $yAllowed = array('top', 'bottom', 'center');
+
+        if (!in_array($x, $xAllowed)) {
+            throw new \InvalidArgumentException('Invalid horizontal alignement value was specified.');
+        }
+
+        if (!in_array($y, $yAllowed)) {
+            throw new \InvalidArgumentException('Invalid vertical alignement value was specified.');
+        }
+
+        $this->alignX = $x;
+        $this->alignY = $y;
+    }
+
+    /**
      * Draws the text on the picture.
      * @param string $text Text to draw. May contain newline characters.
      */
     public function draw($text)
     {
-        if (!isset($this->fontFace)) {
-            throw new \InvalidArgumentException('No path to font file has been specified.');
-        }
-
         switch ($this->textWrapping) {
             case TextWrapping::NoWrap:
                 $lines = array($text);
@@ -265,7 +169,7 @@ class Box
             );
         }
 
-        $lineHeightPx = $this->lineHeight * $this->fontSize;
+        $lineHeightPx = $this->lineHeight * $this->font->getSize();
         $textHeight = count($lines) * $lineHeightPx;
 
         switch ($this->alignY) {
@@ -325,11 +229,11 @@ class Box
                 );
             }
 
-            if ($this->textShadow !== false) {
+            if (is_array($this->font->getShadow())) {
                 $this->drawInternal(
-                    $xMOD + $this->textShadow['x'],
-                    $yMOD + $this->textShadow['y'],
-                    $this->textShadow['color'],
+                    $xMOD + $this->font->getShadow()['x'],
+                    $yMOD + $this->font->getShadow()['y'],
+                    $this->font->getShadow()['color'],
                     $line
                 );
 
@@ -339,7 +243,7 @@ class Box
             $this->drawInternal(
                 $xMOD,
                 $yMOD,
-                $this->fontColor,
+                $this->font->getColor(),
                 $line
             );
 
@@ -375,21 +279,13 @@ class Box
         return $lines;
     }
 
-    /**
-     * @return float
-     */
-    protected function getFontSizeInPoints()
-    {
-        return 0.75 * $this->fontSize;
-    }
-
     protected function drawFilledRectangle($x, $y, $width, $height, Color $color)
     {
         $points = [
             [$x, $y], [$x, $y+$height],
             [$x+$width, $y+$height], [$x+$width, $y]
         ];
-        $angle = deg2rad(-$this->angle);
+        $angle = deg2rad(-$this->font->getAngle());
 
         foreach ($points as &$p) {
             $p0 = $p[0];
@@ -405,12 +301,12 @@ class Box
 
     protected function calculateBox($text)
     {
-        return imageftbbox($this->getFontSizeInPoints(), 0, $this->fontFace, $text);
+        return imageftbbox($this->font->getSizeInPoints(), 0, $this->font->getFile(), $text);
     }
 
     protected function strokeText($x, $y, $text)
     {
-        $size = $this->strokeSize;
+        $size = $this->font->getStrokeSize();
         if ($size <= 0) return;
         for ($c1 = $x - $size; $c1 <= $x + $size; $c1++) {
             for ($c2 = $y - $size; $c2 <= $y + $size; $c2++) {
@@ -423,12 +319,12 @@ class Box
     {
         imagefttext(
             $this->im,
-            $this->getFontSizeInPoints(),
-            $this->angle,
+            $this->font->getSizeInPoints(),
+            $this->font->getAngle(),
             $x,
             $y,
             $color->getIndex($this->im),
-            $this->fontFace,
+            $this->font->getFile(),
             $text
         );
     }

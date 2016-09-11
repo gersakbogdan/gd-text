@@ -1,5 +1,45 @@
 gd-text
 =======
+###Image & Font basic usage example
+```php
+<?php
+require __DIR__.'/../vendor/autoload.php';
+
+use GDText\ImageCreator as Image;
+use GDText\Box;
+use GDText\Font;
+use GDText\Color;
+
+
+// Franchise
+$font = new Font(__DIR__.'/fonts/Fabian.ttf');
+$font->setSize(50)
+     ->setColor(new Color(255, 75, 140))
+     ->setAngle(-10);
+
+$image = Image::canvas(500, 500, new Color(0, 18, 64));
+$image->text('Franchise', 20, 60, $font);
+
+
+// Pacifico
+$font = new Font(__DIR__.'/fonts/Pacifico.ttf');
+$font->setSize(80)
+     ->setColor(new Color(255, 255, 255))
+     ->setAngle(10);
+
+$image->text('Pacifico', 130, 280, $font);
+
+
+// Prisma
+$font = new Font(__DIR__.'/fonts/Prisma.ttf');
+$font->setSize(70)->setColor(new Color(148, 212, 1));
+
+$image->text('Prisma', 220, 460, $font);
+
+
+header("Content-type: image/png;");
+imagepng($image->getResource(), null, 9, PNG_ALL_FILTERS);
+```
 
 ###Basic usage example (with rotation)
 ```php

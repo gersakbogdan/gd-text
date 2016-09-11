@@ -22,6 +22,20 @@ class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param $name
+     * @return string
+     */
+    protected function sha1ImageGD($im)
+    {
+        ob_start();
+        imagepng($im);
+        $sha1 = sha1(ob_get_contents());
+        ob_end_clean();
+
+        return $sha1;
+    }
+
+    /**
      * @param string $name
      * @param resource $im
      */

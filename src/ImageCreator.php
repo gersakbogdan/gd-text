@@ -3,6 +3,7 @@ namespace GDText;
 
 use GDText\ImageCreatorInterface;
 use GDText\ImageFromFile;
+use GDText\Color;
 
 class ImageCreator implements ImageCreatorInterface {
     public static function make($type) {
@@ -16,6 +17,13 @@ class ImageCreator implements ImageCreatorInterface {
         if ($resource === FALSE) {
             throw new \Exception('Invalid image file resource');
         }
+
+        return new Image($resource);
+    }
+
+    public static function canvas($width, $height, Color $color) {
+        $resource = imagecreatetruecolor($width, $height);
+        imagefill($resource, 0, 0, $color->getIndex($resource));
 
         return new Image($resource);
     }

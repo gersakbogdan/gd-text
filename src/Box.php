@@ -31,11 +31,6 @@ class Box
     /**
      * @var float
      */
-    protected $lineHeight = 1.25;
-
-    /**
-     * @var float
-     */
     protected $baseline = 0.2;
 
     /**
@@ -70,15 +65,6 @@ class Box
     public function setBackgroundColor(Color $color)
     {
         $this->backgroundColor = $color;
-    }
-
-    /**
-     * Allows to customize spacing between lines.
-     * @param float $v Height of the single text line, in percents, proportionally to font size
-     */
-    public function setLineHeight($v)
-    {
-        $this->lineHeight = $v;
     }
 
     /**
@@ -169,7 +155,7 @@ class Box
             );
         }
 
-        $lineHeightPx = $this->lineHeight * $this->font->getSize();
+        $lineHeightPx = $this->font->getLineHeight() * $this->font->getSize();
         $textHeight = count($lines) * $lineHeightPx;
 
         switch ($this->alignY) {
@@ -211,7 +197,7 @@ class Box
 
                 $this->drawFilledRectangle(
                     $xMOD,
-                    $this->box['y'] + $yAlign + ($n * $lineHeightPx) + ($lineHeightPx - $backgroundHeight) + (1 - $this->lineHeight) * 13 * (1 / 50 * $this->font->getSize()),
+                    $this->box['y'] + $yAlign + ($n * $lineHeightPx) + ($lineHeightPx - $backgroundHeight) + (1 - $this->font->getLineHeight()) * 13 * (1 / 50 * $this->font->getSize()),
                     $boxWidth,
                     $backgroundHeight,
                     $this->backgroundColor
@@ -310,7 +296,7 @@ class Box
         if ($size <= 0) return;
         for ($c1 = $x - $size; $c1 <= $x + $size; $c1++) {
             for ($c2 = $y - $size; $c2 <= $y + $size; $c2++) {
-                $this->drawInternal($c1, $c2, $this->strokeColor, $text);
+                $this->drawInternal($c1, $c2, $this->font->getStrokeColor(), $text);
             }
         }
     }

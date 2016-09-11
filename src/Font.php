@@ -38,6 +38,11 @@ class Font {
      */
     protected $shadow = false;
 
+    /**
+     * @var float
+     */
+    protected $lineHeight = 1.25;
+
     public function __construct($file) {
         $this->setFile($file);
 
@@ -98,6 +103,10 @@ class Font {
         return $this;
     }
 
+    public function getStrokeColor() {
+        return $this->strokeColor;
+    }
+
     /**
      * @param int $v Stroke size in *pixels*
      */
@@ -141,6 +150,19 @@ class Font {
         return $this->angle;
     }
 
+    /**
+     * Allows to customize spacing between lines.
+     * @param float $v Height of the single text line, in percents, proportionally to font size
+     */
+    public function setLineHeight($lineHeight) {
+        $this->lineHeight = $lineHeight;
+
+        return $this;
+    }
+
+    public function getLineHeight() {
+        return $this->lineHeight;
+    }
     /**
      * @return float
      */

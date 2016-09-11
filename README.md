@@ -6,14 +6,13 @@ gd-text
 <?php
 require __DIR__.'/../vendor/autoload.php';
 
+use GDText\ImageCreator as Image;
 use GDText\Box;
 use GDText\Color;
 
-$im = imagecreatetruecolor(500, 500);
-$backgroundColor = imagecolorallocate($im, 0, 18, 64);
-imagefill($im, 0, 0, $backgroundColor);
+$image = Image::canvas(500, 500, new Color(0, 18, 64));
 
-$box = new Box($im);
+$box = new Box($image->getResource());
 $box->setFontFace(__DIR__.'/Franchise-Bold-hinted.ttf'); // http://www.dafont.com/franchise.font
 $box->setFontColor(new Color(255, 75, 140));
 $box->setTextShadow(new Color(0, 0, 0, 50), 2, 2);
@@ -23,7 +22,7 @@ $box->setTextAlign('left', 'top');
 $box->setAngle(-10);
 $box->draw("Franchise\nBold");
 
-$box = new Box($im);
+$box = new Box($image->getResource());
 $box->setFontFace(__DIR__.'/Pacifico.ttf'); // http://www.dafont.com/pacifico.font
 $box->setFontSize(80);
 $box->setFontColor(new Color(255, 255, 255));
@@ -33,7 +32,7 @@ $box->setTextAlign('center', 'center');
 $box->setAngle(10);
 $box->draw("Pacifico");
 
-$box = new Box($im);
+$box = new Box($image->getResource());
 $box->setFontFace(__DIR__.'/Prisma.otf'); // http://www.dafont.com/prisma.font
 $box->setFontSize(70);
 $box->setFontColor(new Color(148, 212, 1));
@@ -60,11 +59,9 @@ require __DIR__.'/../vendor/autoload.php';
 use GDText\Box;
 use GDText\Color;
 
-$im = imagecreatetruecolor(500, 500);
-$backgroundColor = imagecolorallocate($im, 0, 18, 64);
-imagefill($im, 0, 0, $backgroundColor);
+$image = Image::canvas(500, 500, new Color(0, 18, 64));
 
-$box = new Box($im);
+$box = new Box($image->getResource());
 $box->setFontFace(__DIR__.'/Minecraftia.ttf'); // http://www.dafont.com/minecraftia.font
 $box->setFontColor(new Color(255, 75, 140));
 $box->setTextShadow(new Color(0, 0, 0, 50), 2, 2);
@@ -91,11 +88,9 @@ require __DIR__.'/../vendor/autoload.php';
 use GDText\Box;
 use GDText\Color;
 
-$im = imagecreatetruecolor(500, 500);
-$backgroundColor = imagecolorallocate($im, 0, 18, 64);
-imagefill($im, 0, 0, $backgroundColor);
+$image = Image::canvas(500, 500, new Color(0, 18, 64));
 
-$box = new Box($im);
+$box = new Box($image->getResource());
 $box->setFontFace(__DIR__.'/Elevant bold.ttf'); // http://www.dafont.com/elevant-by-pelash.font
 $box->setFontSize(150);
 $box->setFontColor(new Color(255, 255, 255));
@@ -121,11 +116,9 @@ require __DIR__.'/../vendor/autoload.php';
 use GDText\Box;
 use GDText\Color;
 
-$im = imagecreatetruecolor(500, 500);
-$backgroundColor = imagecolorallocate($im, 0, 18, 64);
-imagefill($im, 0, 0, $backgroundColor);
+$image = Image::canvas(500, 500, new Color(0, 18, 64));
 
-$box = new Box($im);
+$box = new Box($image->getResource());
 $box->setFontFace(__DIR__.'/fonts/BebasNeue.otf'); // http://www.dafont.com/elevant-by-pelash.font
 $box->setFontSize(100);
 $box->setFontColor(new Color(255, 255, 255));

@@ -207,11 +207,11 @@ class Box
 
             if ($line && $this->backgroundColor) {
                 // Marks whole texbox area with given background-color
-                $backgroundHeight = $this->fontSize;
+                $backgroundHeight = $this->font->getSize();
 
                 $this->drawFilledRectangle(
                     $xMOD,
-                    $this->box['y'] + $yAlign + ($n * $lineHeightPx) + ($lineHeightPx - $backgroundHeight) + (1 - $this->lineHeight) * 13 * (1 / 50 * $this->fontSize),
+                    $this->box['y'] + $yAlign + ($n * $lineHeightPx) + ($lineHeightPx - $backgroundHeight) + (1 - $this->lineHeight) * 13 * (1 / 50 * $this->font->getSize()),
                     $boxWidth,
                     $backgroundHeight,
                     $this->backgroundColor

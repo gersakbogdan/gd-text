@@ -1,11 +1,10 @@
 <?php
 namespace GDText;
 
-use GDText\ImageCreatorInterface;
 use GDText\ImageFromFile;
 use GDText\Color;
 
-class ImageCreator implements ImageCreatorInterface {
+class ImageCreator {
     public static function make($type) {
 
         if (is_string($type)) {

@@ -7,42 +7,42 @@ class Font {
     /**
      * @var int
      */
-    protected $size = 12;
+    private $size = 12;
 
     /**
      * @var Color
      */
-    protected $color;
+    private $color;
 
     /**
      * @var float
      */
-    protected $angle = 0.0;
+    private $angle = 0.0;
 
     /**
      * @var string
      */
-    protected $file;
+    private $file;
 
     /**
      * @var int
      */
-    protected $strokeSize = 0;
+    private $strokeSize = 0;
 
     /**
      * @var Color
      */
-    protected $strokeColor;
+    private $strokeColor;
 
     /**
      * @var bool|array
      */
-    protected $shadow = false;
+    private $shadow = false;
 
     /**
      * @var float
      */
-    protected $lineHeight = 1.25;
+    private $lineHeight = 1.25;
 
     public function __construct($file) {
         $this->setFile($file);
